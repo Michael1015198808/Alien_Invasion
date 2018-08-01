@@ -1,5 +1,6 @@
 import sys
 import pygame
+import json
 from bullet import Bullet
 from alien import Alien
 from time import sleep
@@ -36,7 +37,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
             check_keyup_events(event, ai_settings, screen, stats, sb, play_button, ship, aliens, bullets)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(ai_settings, screen, stats, play_button, ship, sb, aliens, bullets, mouse_x, mouse_y)
+            check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y)
 def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y):
     if play_button.rect.collidepoint(mouse_x, mouse_y) and not stats.game_active:
         start_game(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets)
@@ -74,11 +75,14 @@ def check_bullet_alien_collisions(ai_settings, screen, sb, stats, ship, aliens, 
             sb.prep_score()
         check_high_score(stats, sb)
     if len(aliens) == 0:
-        bullets.empty()
-        ai_settings.increase_speed()
-        create_fleet(ai_settings, screen, ship, aliens)
-        stats.level += 1
-        sb.prep_level()
+        start_new_level(ai_settings, screen, sb, stats, ship, aliens, bullets)
+
+def start_new_level(ai_settings, screen, sb, stats, ship, aliens, bullets):
+    bullets.empty()
+    ai_settings.increase_speed()
+    create_fleet(ai_settings, screen, ship, aliens)
+    stats.level += 1
+    sb.prep_level()
 
 
 def check_keydown_events(event, ai_settings, screen, stats, sb, play_button, ship, aliens, bullets):
@@ -136,13 +140,19 @@ def ship_hit(ai_settings, stats, sb, screen, ship, aliens, bullets):
     create_fleet(ai_settings, screen, ship, aliens)
     ship.center_ship()
     sleep(0.5)
+
+
 def check_aliens_bottom(ai_settings, stats, sb, screen, ship, aliens, bullets):
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
             ship_hit(ai_settings, stats, sb, screen, ship, aliens, bullets)
             break
+
+
 def check_high_score(stats, sb):
     if stats.score > stats.high_score:
         stats.high_score = stats.score
         sb.prep_high_score()
+        with open(r'data\data.json', 'w') as data:
+            json.dump(stats.high_score, data)

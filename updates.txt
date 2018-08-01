@@ -1,0 +1,6 @@
+Latest Version: V1.0
+Updates:
+
+V1.0:
+successfully debuged.
+Additional feature 14-1 added, 14-4 and 14-5 left for the next version.

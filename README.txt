@@ -12,13 +12,14 @@ And I build this repository just to practice using Git.
 
 Notes
 
+THIS program is only for WINDOWS! (For Linux, you may change string parts like r"/" into r"\".)
 Run alien_invasion.py or run.bat to play the game.
 Remember you've download pygame package.
 Since I use PyCharm to write this game( I strongly recommend this IDE! It's beyond words!), you may find some strange folders, just ignore!
 update.bat is used to make commitment easier, DON'T RUN IT!( It's open sourse)
 Any advices or bugs PLZ contact me, imformation listed below.
 
-
+(Make sure your computer support Chinese, or you'll see messy codes below)
 QQ: 1015198808
 
 Sina Weibo: €≥’Ò”Ónju
